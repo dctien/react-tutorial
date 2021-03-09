@@ -5,7 +5,11 @@ import Lession from './Lession';
 export default class Course extends Component {
     constructor(props){
         super(props);
+        this.state = {
+            isShowOutline: false
+        };
         this.handleClick3 = this.handleClick3.bind(this);
+        this.handleToogleOutline = this.handleToogleOutline.bind(this);
     }
     handleClick(){
         alert("Vũ Thị Khánh Chi");
@@ -15,6 +19,11 @@ export default class Course extends Component {
     }
     handleClick3(){
         alert(this.props.name);
+    }
+    handleToogleOutline(){
+        this.setState({
+            isShowOutline: !this.state.isShowOutline 
+        });
     }
     showButtonFree(){
         const isFree = this.props.free;
@@ -29,6 +38,15 @@ export default class Course extends Component {
         } 
     }
     render() {
+        // console.log(this.state);
+        let eleOutline = null;
+        if(this.state.isShowOutline){
+            eleOutline = <ul class="list-group list-group-flush">
+                            <Lession />
+                            <Lession />
+                            <Lession />
+                        </ul>;
+        }
         return (
             <div className="col-md-4 col-lg-4">
                 <div className="card">
@@ -38,11 +56,13 @@ export default class Course extends Component {
                     <div className="card-body">
                         <p>{this.props.name}</p>
                         <p>{this.props.children}</p>
-                    <ul class="list-group list-group-flush">
+                        <button onClick={this.handleToogleOutline} type="button" className="btn btn-success">Toogle Outline</button>
+                    {/* <ul class="list-group list-group-flush">
                         <Lession />
                         <Lession />
                         <Lession />
-                    </ul>
+                    </ul> */}
+                        {eleOutline}
                     </div>
                     {this.showButtonFree()}
                 </div>
