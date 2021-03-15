@@ -13,12 +13,12 @@ let items =  [
   },
   {
     id: uuidv4(),
-    name: "Chi vũ thị khánh chi",
+    name: "xcjzxjcfms,njasjfhajsf",
     level: 1 // 0 Small, 1 Medium , 2 High
   },
   {
     id: uuidv4(),
-    name: "Cô gái của những nỗi buồn Khánh Chi ",
+    name: "12345z6xczxck ",
     level: 2 // 0 Small, 1 Medium , 2 High
   }
 ];

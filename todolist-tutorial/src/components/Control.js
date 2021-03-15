@@ -12,6 +12,8 @@ export default class Control extends Component {
     }
 
     render() {
+        let {orderBy, orderDir} = this.props
+
         // console.log(this.props.isShowForm)
         //https://qastack.vn/programming/40177331/what-is-the-shortcut-in-visual-studio-code-for-console-log
         let eleButton = <button onClick={this.handleAdd} type="button" className="btn btn-info btn-block">Add Task</button>;
@@ -26,7 +28,11 @@ export default class Control extends Component {
                 {/* SEARCH : END */}
 
                 {/* SORT : START */}
-                <Sort />
+                <Sort 
+                    onClickSort={this.props.onClickSort}
+                    orderBy={orderBy}
+                    orderDir={orderDir}
+                />
                 {/* SORT : END */}
 
                 {/* ADD : START */}
