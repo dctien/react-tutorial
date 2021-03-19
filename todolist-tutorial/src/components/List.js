@@ -2,13 +2,24 @@ import React, { Component } from 'react'
 import Item from './Item'
 
 export default class List extends Component {
-    
+  constructor(props){
+    super(props);
+    this.state = {
+      
+    }
+  }
+  
   render() {
     // console.log(this.props.items);
     const items = this.props.items;
     const eleItem = items.map((item, index) => {
       return (
-        <Item key={index} item={item} index={index}/>
+        <Item 
+          key={index}   
+          item={item} 
+          index={index} 
+          onClickDelete={this.props.onClickDelete}
+          onClickEdit={this.props.onClickEdit}/>
       )
     })
 

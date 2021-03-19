@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 
 export default class Item extends Component {
-
+    constructor(props){
+        super(props);
+        this.state = {
+        
+        }
+    }
     showElementLevel(level){
         let eleLevel = <span className="label label-danger">High</span>
         if(level===0){
@@ -12,7 +17,15 @@ export default class Item extends Component {
         return eleLevel;
     }
 
+    handleDelete(id){
+        this.props.onClickDelete(id);
+    }
+    handleEdit(item){
+        this.props.onClickEdit(item)
+    }
+
     render() {
+        // console.log(item)
         const {item} =this.props;
         const {index} =this.props;
         // hoặc const index =this.props.index;
@@ -23,8 +36,8 @@ export default class Item extends Component {
                 <td>{item.name}</td>
                 <td className="text-center">{this.showElementLevel(item.level)}</td>
                 <td>
-                <button type="button" className="btn btn-warning">Edit</button>
-                <button type="button" className="btn btn-danger">Delete</button>
+                    <button onClick={()=>this.handleEdit(item)} type="button" className="btn btn-warning">Edit</button>
+                    <button onClick={()=>this.handleDelete(item.id)} type="button" className="btn btn-danger">Delete</button>
                 </td>
             </tr>
         )

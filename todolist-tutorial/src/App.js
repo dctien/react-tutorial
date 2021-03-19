@@ -1,12 +1,12 @@
-import './App.css';
 import React, { Component } from 'react';
 import Title from './components/Title'
 import Control from './components/Control'
 import Form from './components/Form'
 import List from './components/List'
 import tasks from './Mock/Task'
-// import library lodash 
-import {filter, includes, orderBy as funcOrderBy} from 'lodash'
+// import library lodash, uuid
+import {filter, includes, orderBy as funcOrderBy, remove, reject} from 'lodash'
+import { v4 as uuidv4 } from 'uuid';
 
 export default class App extends Component {
   constructor(props){
@@ -16,18 +16,42 @@ export default class App extends Component {
       isShowForm: false, 
       strSearch :'',
       orderBy   : 'Name',
-      orderDir  : 'ASC'
+      orderDir  : 'ASC',
+      itemSelect: null
     }
 
     this.handleToogleForm = this.handleToogleForm.bind(this);
     this.clockForm        = this.clockForm.bind(this);
     this.handleSearch     = this.handleSearch.bind(this);
     this.handleSort       = this.handleSort.bind(this);
+    this.handleDelete     = this.handleDelete.bind(this);
+    this.handleSubmit     = this.handleSubmit.bind(this);
+    this.handleEdit       = this.handleEdit.bind(this);
   }
-  
+
+  handleSubmit(item){
+    let {items} = this.state;
+    let id = null;
+    if(item.id !== ''){ //edit
+      items = reject(items, { id: item.id });
+      id = item.id
+    }else{  //add
+      id = uuidv4();
+    }
+    items.push({
+      id    : id, 
+      name  : item.name,
+      level : +item.level // with + convert string to number
+    })
+    this.setState({
+      items: items,
+      isShowForm: false
+    })
+  }
   handleToogleForm(){
     this.setState({
-      isShowForm : !this.state.isShowForm
+      isShowForm : !this.state.isShowForm,
+      itemSelect: null
     });
   }
 
@@ -45,6 +69,21 @@ export default class App extends Component {
       orderDir  : orderDir
     })
   }
+  handleDelete(id){
+    let items = this.state.items
+    remove(items,(item)=>{
+      return item.id === id
+    })
+    this.setState({
+      items: items
+    })
+  }
+  handleEdit(item){
+    this.setState({
+      itemSelect: item,
+      isShowForm: true
+    })
+  }
 
   render() {
     // console.log(tasks);
@@ -53,7 +92,11 @@ export default class App extends Component {
     // let search = this.state.strSearch;
     // let isShowForm = this.state.isShowForm;
     let eleForm = null;
-    let {orderBy, orderDir, isShowForm, strSearch} = this.state;
+    let {orderBy, orderDir, isShowForm, strSearch, itemSelect} = this.state; 
+    // let orderBy =this.state.orderBy
+    // let orderDir =this.state.orderDir
+    // let isShowForm =this.state.isShowForm
+    // let strSearch =this.state.strSearch
     
     // Search
     items = filter(itemOrigin,(item)=>{
@@ -61,10 +104,13 @@ export default class App extends Component {
     });
 
     //Sort
-    items = funcOrderBy(items, [orderBy], [orderDir]);
+    items = funcOrderBy(items,[orderBy], [orderDir]);
 
     if(isShowForm){
-      eleForm = <Form onClickCancel={this.clockForm}/>
+      eleForm = <Form 
+        itemSelect   = {itemSelect} 
+        onClickSubmit={this.handleSubmit} 
+        onClickCancel={this.clockForm}/>
     }
     return (
       <div >
@@ -88,7 +134,10 @@ export default class App extends Component {
         {/* FORM : END */}
 
         {/* LIST : START */}
-        <List items ={items}/>
+        <List 
+          onClickDelete={this.handleDelete}
+          onClickEdit={this.handleEdit}
+          items ={items}/>
       </div>
     );
   }
