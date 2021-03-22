@@ -3,7 +3,7 @@ import Title from './components/Title'
 import Control from './components/Control'
 import Form from './components/Form'
 import List from './components/List'
-import tasks from './Mock/Task'
+// import tasks from './Mock/Task'
 // import library lodash, uuid
 import {filter, includes, orderBy as funcOrderBy, remove, reject} from 'lodash'
 import { v4 as uuidv4 } from 'uuid';
@@ -12,7 +12,7 @@ export default class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      items     : tasks, 
+      items     : null, 
       isShowForm: false, 
       strSearch :'',
       orderBy   : 'Name',
@@ -27,6 +27,11 @@ export default class App extends Component {
     this.handleDelete     = this.handleDelete.bind(this);
     this.handleSubmit     = this.handleSubmit.bind(this);
     this.handleEdit       = this.handleEdit.bind(this);
+  }
+
+  componentWillMount(){
+    let item = JSON.parse(localStorage.getItem('task'))
+    this.setState({items: item})
   }
 
   handleSubmit(item){
@@ -47,6 +52,8 @@ export default class App extends Component {
       items: items,
       isShowForm: false
     })
+
+    localStorage.setItem('task',JSON.stringify(items))
   }
   handleToogleForm(){
     this.setState({
