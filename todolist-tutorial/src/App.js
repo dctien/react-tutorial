@@ -30,7 +30,7 @@ export default class App extends Component {
   }
 
   componentWillMount(){
-    let item = JSON.parse(localStorage.getItem('task'))
+    let item = JSON.parse(localStorage.getItem('task')) || []
     this.setState({items: item})
   }
 
