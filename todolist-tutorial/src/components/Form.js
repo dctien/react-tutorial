@@ -11,21 +11,19 @@ export default class Form extends Component {
     this.handleCacel = this.handleCacel.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.updateItem = this.updateItem.bind(this);
   }
   
   componentWillMount(){
-    let item = this.props.itemSelect
-    if(item !== null){
-      this.setState({
-        task_id     : item.id,
-        task_name   : item.name,
-        task_level  : item.level
-      })
-    }
+    return this.updateItem(this.props.itemSelect)
   } 
   componentWillReceiveProps(nextProps){
-    let item = nextProps.itemSelect
-    if(nextProps !== null){
+    return this.updateItem(nextProps.itemSelect)
+    
+  }
+
+  updateItem(item){
+    if(item !== null){
       this.setState({
         task_id     : item.id,
         task_name   : item.name,

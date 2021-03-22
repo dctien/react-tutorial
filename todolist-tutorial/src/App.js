@@ -20,10 +20,10 @@ export default class App extends Component {
       itemSelect: null
     }
 
-    this.handleToogleForm = this.handleToogleForm.bind(this);
+    // this.handleToogleForm = this.handleToogleForm.bind(this);
     this.clockForm        = this.clockForm.bind(this);
     this.handleSearch     = this.handleSearch.bind(this);
-    this.handleSort       = this.handleSort.bind(this);
+    // this.handleSort       = this.handleSort.bind(this);
     this.handleDelete     = this.handleDelete.bind(this);
     this.handleSubmit     = this.handleSubmit.bind(this);
     this.handleEdit       = this.handleEdit.bind(this);
@@ -55,7 +55,7 @@ export default class App extends Component {
 
     localStorage.setItem('task',JSON.stringify(items))
   }
-  handleToogleForm(){
+  handleToogleForm = () =>{
     this.setState({
       isShowForm : !this.state.isShowForm,
       itemSelect: null
@@ -70,7 +70,7 @@ export default class App extends Component {
   handleSearch(value){
     this.setState({strSearch: value})  
   }
-  handleSort(orderBy, orderDir){
+  handleSort = (orderBy, orderDir) => {
     this.setState({
       orderBy   : orderBy,
       orderDir  : orderDir
@@ -94,16 +94,12 @@ export default class App extends Component {
 
   render() {
     // console.log(tasks);
-    let itemOrigin = [...this.state.items];
+    let itemOrigin =(this.state.items!==null) ? [...this.state.items] : [];
     let items = [];
     // let search = this.state.strSearch;
     // let isShowForm = this.state.isShowForm;
     let eleForm = null;
     let {orderBy, orderDir, isShowForm, strSearch, itemSelect} = this.state; 
-    // let orderBy =this.state.orderBy
-    // let orderDir =this.state.orderDir
-    // let isShowForm =this.state.isShowForm
-    // let strSearch =this.state.strSearch
     
     // Search
     items = filter(itemOrigin,(item)=>{
